@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import fetch from "cross-fetch";
 
 const route = Router();
 
@@ -8,10 +9,20 @@ route.get("/", (req: Request, res: Response) =>
 
 route.get("/home", (req: Request, res: Response) => res.send("Home"));
 
-for (let index = 0; index < 10; index++) {
-  route.get(`/router${index}`, (req: Request, res: Response) =>
-    res.send(`/router${index}`)
-  );
-}
+fetch(
+  "https://api.github.com/repos/DaniloDCS/Multiprojects/contents/public/css"
+)
+  .then((response: any) => response.json())
+  .then((res: any) => {
+    res.forEach((page) => {
+      let name = page.name.replace(".css", "");
+
+      route.get(`/${name}`, (req: Request, res: Response) =>
+        res.render(`pages/${name}`)
+      );
+
+    });
+  })
+  .catch((err) => {});
 
 export default route;
