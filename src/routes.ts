@@ -15,12 +15,13 @@ fetch(
   .then((response: any) => response.json())
   .then((res: any) => {
     res.forEach((page) => {
-      let name = page.name.replace(".css", "");
+      let title = page.name.replace(".css", "");
 
-      route.get(`/${name}`, (req: Request, res: Response) =>
-        res.render(`pages/${name}`)
+      route.get(`/${title.replace("_", "")}`, (req: Request, res: Response) =>
+        res.render(`pages/${title}`, {
+          title,
+        })
       );
-
     });
   })
   .catch((err) => {});

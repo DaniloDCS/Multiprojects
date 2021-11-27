@@ -18,7 +18,7 @@ class App {
     this.express.use(cors());
     this.express.set("view engine", "ejs");
     this.express.use(layouts);
-    this.express.use("/public", express.static("/public/"));
+    this.express.use("/public/", express.static("public/"));
   }
 
   private routes(): void {

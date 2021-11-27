@@ -26,8 +26,8 @@
                     let name = page.name.replace(".css", ""),
                         app = document.createElement("a");
 
-                    app.innerHTML = name
-                    app.href = './' + name
+                    app.setAttribute("href", name.replace(/_/g, ""));
+                    app.innerHTML = name.replace(/_/g, " ");
 
                     document.body.append(app)
                 });
