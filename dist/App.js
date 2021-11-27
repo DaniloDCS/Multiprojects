@@ -18,7 +18,7 @@ class App {
     this.express.use(_cors2.default.call(void 0, ));
     this.express.set("view engine", "ejs");
     this.express.use(_expressejslayouts2.default);
-    this.express.use("/public", _express2.default.static("/public/"));
+    this.express.use("/public/", _express2.default.static("public/"));
   }
 
    routes() {

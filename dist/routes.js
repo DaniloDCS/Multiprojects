@@ -15,12 +15,13 @@ _crossfetch2.default.call(void 0,
   .then((response) => response.json())
   .then((res) => {
     res.forEach((page) => {
-      let name = page.name.replace(".css", "");
+      let title = page.name.replace(".css", "");
 
-      route.get(`/${name}`, (req, res) =>
-        res.render(`pages/${name}`)
+      route.get(`/${title.replace("_", "")}`, (req, res) =>
+        res.render(`pages/${title}`, {
+          title,
+        })
       );
-
     });
   })
   .catch((err) => {});
