@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title.replace(/_/g, ' ') %></title>
+    <title><%= title.replace(/_/g, ' ').toUpperCase() %></title>
     <link rel="stylesheet" href="/public/css/<%= title %>.css">
     <script defer src="/public/js/<%= title %>.js"></script>
+    <style>
+        :root {
+            --blue: #04048C;
+            --blue2: #142C54;
+            --esmeralda: #04E474;
+            --green: #04A405;
+            --red: #FC0404;
+            --yellow: #FCEB04;
+            --purple: #841794;
+            --vine: #3C2C6C;
+            --gray: #545454;
+            --salmon: #DCAF86;
+            --pink: #F61463;
+            --turkey: #0468AF;
+            --orange: #FC5C04;
+            --brown: #7C3404;
+        }
+
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        html,
+        body,
+        .app-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
 </head>
+
 <body>
     <%- body %>
 </body>
+
 </html>

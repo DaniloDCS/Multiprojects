@@ -19,6 +19,7 @@ class App {
     this.express.set("view engine", "ejs");
     this.express.use(layouts);
     this.express.use("/public/", express.static("public/"));
+    this.express.use("/fontawesome/", express.static("node_modules/@fortawesome/fontawesome-free/"));
   }
 
   private routes(): void {

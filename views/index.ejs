@@ -6,33 +6,327 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="/fontawesome/css/all.css">
     <style>
+        :root {
+            --blue: #04048C;
+            --blue2: #142C54;
+            --esmeralda: #04E474;
+            --green: #04A405;
+            --red: #FC0404;
+            --yellow: #FCEB04;
+            --purple: #841794;
+            --vine: #3C2C6C;
+            --gray: #545454;
+            --pink: #F61463;
+            --turkey: #0468AF;
+            --orange: #FC5C04;
+            --brown: #7C3404;
+        }
+
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        html,
+        body,
+        .app-container {
+            width: 100%;
+            height: 100%;
+        }
+
         body {
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+
+        #apps {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .app {
+            padding: 20px;
+            margin: 2%;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            text-transform: capitalize;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .app i {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .app:hover {
+            transform: scale(1.2);
+            transition: 0.8s;
+        }
+
+        @media (min-width: 320px) {
+            .app {
+                width: 98%;
+            }
+
+            .search {
+                width: 96%;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .app {
+                width: 23%;
+            }
+
+            .search {
+                width: 70%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .app {
+                width: 14%;
+            }
+
+            .search {
+                width: 50%;
+            }
+        }
+
+        .unavailable {
+            opacity: 0.4;
+        }
+
+        #top,
+        #bottom,
+        #scroll {
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        #scroll {
+            width: 4%;
+            height: 8px;
+            background-color: var(--blue);
+            top: 0;
+        }
+
+        #top,
+        #bottom {
+            top: 20px;
+            width: fit-content;
+            display: none;
+            margin: auto;
+            align-items: center;
+            background-color: var(--blue);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+
+        #top i,
+        #bottom i {
+            margin-right: 10px;
+        }
+
+        #connection {
+            position: fixed;
+            top: 20px;
+            right: 10px;
+            background-color: var(--blue);
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: medium;
+        }
+
+        #apps-name {
+            display: none;
+        }
+
+        .search {
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            margin: auto;
+            background-color: var(--blue2);
+            border-radius: 6px;
+        }
+
+        .search input {
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: transparent;
+            color: white;
+            transform: translateY(15px);
+        }
+
+        .search label {
+            width: 100%;
+            color: white;
+            transform: translateY(-10px);
+        }
+
+        .search input:focus+label,
+        .search input:valid+label {
+            transform: translateY(-28px);
+            transition: 0.6s;
         }
     </style>
 </head>
 
-
 <body>
+    <div id="scroll"></div>
+    <div id="connection"><i class="fas fa-wifi"></i></div>
+    <div id="top"> <i class="fas fa-chevron-up"></i> Go to Top</div>
+    <div id="bottom"> <i class="fas fa-chevron-down"></i> Go to Bottom</div>
+    <p id="apps-name"><%= JSON.stringify(apps) %></p>
+    <div class="app-container">
+        <div class="search">
+            <input type="text" required id="search">
+            <label for="search"> <i class="fas fa-search"></i> Search App</label>
+        </div>
+        <div id="apps"></div>
+    </div>
     <script>
-        fetch(
-                "https://api.github.com/repos/DaniloDCS/Multiprojects/contents/public/css"
-            )
-            .then((response) => response.json())
-            .then((res) => {
-                res.forEach((page) => {
-                    let name = page.name.replace(".css", ""),
-                        app = document.createElement("a");
+        const backgrounds = ['--blue',
+                '--blue2',
+                '--esmeralda',
+                '--green',
+                '--red',
+                '--yellow',
+                '--purple',
+                '--vine',
+                '--gray',
+                '--pink',
+                '--turkey',
+                '--orange',
+                '--brown'
+            ],
+            apps = JSON.parse(document.querySelector("#apps-name").innerHTML),
+            search = document.querySelector("#search"),
+            listApps = document.querySelector("#apps");
 
-                    app.setAttribute("href", name.replace(/_/g, ""));
-                    app.innerHTML = name.replace(/_/g, " ");
+        apps.sort((a, b) => (a.available === b.available ? 0 : a.available ? -1 : 1))
 
-                    document.body.append(app)
-                });
-            })
-            .catch((err) => {});
+        function randomColor() {
+            return backgrounds[Math.floor(Math.random() * (backgrounds.length - 0)) + 0]
+        }
+
+        search.addEventListener('input', searchApp)
+
+        function searchApp() {
+            listApps.innerHTML = ''
+            let value = search.value.toLowerCase();
+
+            apps.forEach((app) => {
+                if (app.title.toLowerCase().indexOf(value) != -1) {
+
+                    let link = document.createElement("a"),
+                        icon = document.createElement("i"),
+                        title = document.createElement("div");
+
+                    link.classList.add('app')
+
+                    if (!app.available) {
+                        link.classList.add('unavailable');
+                    } else {
+                        link.setAttribute("href", app.title.replace(/_/g, ""));
+                    }
+
+                    link.style.backgroundColor = `var(${randomColor()})`;
+                    title.innerHTML = app.title.replace(/_/g, " ");
+                    icon.className = app.icon;
+
+                    link.append(icon, title);
+                    listApps.append(link);
+                }
+            });
+        }
+
+        searchApp()
+
+        const btnTop = document.querySelector("#top"),
+            bottom = document.querySelector("#bottom");
+
+        document.addEventListener('scroll', event => {
+            let heightMax = document.body.scrollHeight - window.innerHeight,
+                heightNow = window.pageYOffset,
+                percent = (heightNow * 100) / heightMax;
+
+            if (percent > 15 && percent < 50) {
+                bottom.style.display = "flex";
+                btnTop.style.display = "none";
+            } else if (percent > 50) {
+                bottom.style.display = "none";
+                btnTop.style.display = "flex";
+            } else {
+                bottom.style.display = "none";
+                btnTop.style.display = "none";
+            }
+
+            document.querySelector("#scroll").style.width = `${percent}%`;
+        })
+
+        btnTop.addEventListener('click', () => {
+            let heightNow = document.body.scrollHeight - window.innerHeight,
+                heightMax = document.body.offsetHeight
+
+            let intScroll = setInterval(() => {
+                window.scroll(0, heightNow)
+                heightNow -= (heightMax * 8) / 100
+
+                if (heightNow <= 0) clearInterval(intScroll)
+            }, 1);
+        })
+
+        bottom.addEventListener('click', () => {
+            let heightNow = document.body.scrollHeight - window.innerHeight,
+                heightMax = document.body.offsetHeight
+
+            let intScroll = setInterval(() => {
+                window.scroll(0, heightNow)
+                heightNow += (heightMax * 8) / 100
+
+                if (heightNow >= heightMax) clearInterval(intScroll)
+            }, 1);
+        })
+
+        function connection() {
+            if (navigator.onLine) {
+                document.querySelector("#connection").style.backgroundColor = 'var(--green)'
+            } else {
+                document.querySelector("#connection").style.backgroundColor = 'var(--red)'
+            }
+        }
+
+        connection()
+
+        window.addEventListener('online', connection)
+        window.addEventListener('offline', connection)
     </script>
 </body>
 
