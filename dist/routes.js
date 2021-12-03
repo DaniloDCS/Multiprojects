@@ -12,7 +12,7 @@ route.get("/home", (req, res) => res.send("Home"));
 
 _apps2.default.forEach((page) => {
   let title = page.title;
-  route.get(`/${title.replace("_", "")}`, (req, res) => {
+  route.get(`/${title.replace(/_/g, "")}`, (req, res) => {
     res.render(`pages/${title}`, {
       title,
     });
