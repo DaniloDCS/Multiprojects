@@ -1,0 +1,47 @@
+#screen {
+    margin: 0.5%;
+    background-color: white;
+    border-radius: 6px;
+    filter: drop-shadow(0 0 30px #333);
+    cursor: crosshair;
+}
+
+button {
+    cursor: pointer;
+    background-color: white;
+    font-size: large;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+nav {
+    display: flex;
+    background-color: var(--esmeralda);
+    padding: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+#drawn-title {
+    background-color: transparent;
+    border: none;
+    font-weight: 700;
+    font-size: large;
+    margin: 0 10px;
+}
+
+.menu {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.link-home {
+    right: 10px;
+    top: 96%;
+    padding: 0 10px;
+}

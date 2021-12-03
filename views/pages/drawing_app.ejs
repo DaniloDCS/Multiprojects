@@ -1,0 +1,26 @@
+<nav>
+    <div class="menu">
+        <select class="width" name="" id="width">
+            <option value="5" selected>5px</option>
+            <option value="8">8px</option>
+            <option value="10">10px</option>
+            <option value="15">15px</option>
+            <option value="20">20px</option>
+        </select>
+        <div class="color">
+            <div class="colors"></div>
+            <input id="color" type="color">
+        </div>
+        <div class="btn-group">
+            <button id="draw"><i class="fas fa-pen"></i></button>
+            <button id="clear"><i class="fas fa-eraser"></i></button>
+            <button id="paint"><i class="fas fa-fill-drip"></i></button>
+            <button id="text"><i class="fas fa-font"></i></button>
+            <button id="save"><i class="fas fa-image"></i></button>
+        </div>
+        <input type="text" id="drawn-title" value="Untitled">
+    </div>
+    <h1 class="app-title"><%= title %></h1>
+</nav>
+
+<canvas id="screen"></canvas>
