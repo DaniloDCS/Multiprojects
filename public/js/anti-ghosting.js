@@ -3,6 +3,7 @@ let keys = {};
 document.addEventListener("keydown", event => {
     event.preventDefault();
     let code = event.code;
+
     keys[code] = true;
     show();
 })
@@ -10,7 +11,6 @@ document.addEventListener("keydown", event => {
 document.addEventListener("keyup", event => {
     event.preventDefault();
     let code = event.code;
-    console.log(code)
 
     keys[code] = false;
     show();
