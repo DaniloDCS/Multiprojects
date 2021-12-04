@@ -1,0 +1,52 @@
+.app-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.clock {
+    width: 400px;
+    height: 400px;
+    background-color: lightgray;
+    border-radius: 50%;
+    border: 10px solid var(--blue2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#timer {
+    font-size: 60px;
+}
+
+.btn-group {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    width: 30%;
+    padding: 10px;
+    margin: 1%;
+    color: white;
+    font-weight: 700;
+    border-radius: 6px;
+    border: none;
+}
+
+#btn-start {
+    background-color: var(--esmeralda);
+}
+
+#btn-pause {
+    background-color: var(--turkey);
+    display: none;
+}
+
+#btn-restart {
+    background-color: var(--vine);
+    display: none;
+}
